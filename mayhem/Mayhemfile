@@ -1,0 +1,16 @@
+# Mayhem target: Pyverilog Verilog HDL parser (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_log.py; Atheris
+# instruments the pyverilog library so the run records coverage (edges).
+# Target name `fuzz-log` is the historical target name (preserves run history).
+project: savantenvs/pyverilog
+target: fuzz-log
+
+cmds:
+  - cmd: /mayhem/pyverilog_fuzzer
+    libfuzzer: true
+    timeout: 12
+
+# Seed corpus (canonical per-target path + the server-accumulated tar).
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/fuzz-log/testsuite
